@@ -24,8 +24,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     packaging {
@@ -45,6 +45,14 @@ android {
                 "META-INF/*.kotlin_module"
             )
         }
+    }
+}
+
+// ✅ Modern Kotlin compiler options
+kotlin {
+    compilerOptions {
+        // Use the new compilerOptions DSL
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
@@ -76,7 +84,6 @@ dependencies {
     implementation(libs.prov)
     implementation(libs.pkix)
 
-    // Architectural Components
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
@@ -91,20 +98,4 @@ dependencies {
 
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.iid)
-}
-
-// ✅ Correct way to set JVM target and toolchain
-kotlin {
-    jvmToolchain {
-        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinJvmLanguageVersion.KOTLIN_1_9)
-        (this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmToolchainBuilder).apply {
-            (this as org.jetbrains.kotlin.gradle.dsl.JvmToolchainSpec).languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinJvmLanguageVersion.KOTLIN_1_9)
-        }
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "21"
-    }
 }
