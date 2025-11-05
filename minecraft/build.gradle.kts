@@ -22,6 +22,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
@@ -92,11 +93,18 @@ dependencies {
     implementation(libs.firebase.iid)
 }
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
+// ✅ Correct way to set JVM target and toolchain
 kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_21)
+    jvmToolchain {
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinJvmLanguageVersion.KOTLIN_1_9)
+        (this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmToolchainBuilder).apply {
+            (this as org.jetbrains.kotlin.gradle.dsl.JvmToolchainSpec).languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinJvmLanguageVersion.KOTLIN_1_9)
+        }
     }
-    jvmToolchain(21)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "21"
+    }
 }
