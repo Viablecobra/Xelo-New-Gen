@@ -6,25 +6,31 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0" apply false
 }
 
-// ✅ Apply JVM 17 target globally
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+// ✅ Apply JVM 17 globally without breaking Minecraft
 subprojects {
+    // For Java sources
     tasks.withType<JavaCompile>().configureEach {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = "17"
-    }
-
+    // ✅ Modern Kotlin DSL for both Android & JVM projects
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension> {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+            }
             jvmToolchain(17)
         }
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.android") {
         extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension> {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+            }
             jvmToolchain(17)
         }
     }
