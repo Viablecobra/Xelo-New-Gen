@@ -5,6 +5,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 android {
     namespace = "io.kitsuri.pelauncher"
     compileSdk = 36
@@ -34,21 +36,21 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    // ✅ Modern Kotlin compiler DSL
     kotlin {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = "1.7.0"
     }
+
     packaging {
         jniLibs.useLegacyPackaging = true
         resources.excludes.addAll(
-            setOf(
-                "DebugProbesKt.bin"
-            )
+            setOf("DebugProbesKt.bin")
         )
         resources.pickFirsts.addAll(
             setOf(
@@ -57,6 +59,7 @@ android {
             )
         )
     }
+
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
