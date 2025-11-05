@@ -1,0 +1,3 @@
+[submodule "app/src/main/cpp/unpaircore"]
+	path = app/src/main/cpp/unpaircore
+	url = https://github.com/Kitsuri-Studios/unpaircore
