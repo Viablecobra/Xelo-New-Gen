@@ -91,3 +91,12 @@ dependencies {
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.iid)
 }
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
+    jvmToolchain(21)
+}
